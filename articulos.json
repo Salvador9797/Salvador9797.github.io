@@ -1,1 +1,18 @@
-[{"categoria":"Inteligencia artificial","fecha":"2026-10-19","resumen":"El Departamento de Seguridad Nacional prohibió a todas las agencias civiles federales usar productos de DeepSeek: nada de compras nuevas, hay que desinstalar lo ya instalado, y el veto alcanza incluso a herramientas de terceros construidas sobre sus modelos.","slug":"deepseek-veto-eeuu","titulo":"Washington le cierra la puerta a DeepSeek: la IA china queda vetada en las agencias federales de EE. UU.","url":"articulos/deepseek-veto-eeuu.html"}]
+[
+ {
+  "categoria": "Inteligencia artificial",
+  "fecha": "2026-10-19",
+  "resumen": "El Departamento de Seguridad Nacional prohibió a todas las agencias civiles federales usar productos de DeepSeek: nada de compras nuevas, hay que desinstalar lo ya instalado, y el veto alcanza incluso a herramientas de terceros construidas sobre sus modelos.",
+  "slug": "deepseek-veto-eeuu",
+  "titulo": "Washington le cierra la puerta a DeepSeek: la IA china queda vetada en las agencias federales de EE. UU.",
+  "url": "articulos/deepseek-veto-eeuu.html"
+ },
+ {
+  "slug": "whatsapp-llamadas-invitados",
+  "titulo": "Ya puedes invitar a quien sea a una videollamada de WhatsApp, aunque no tenga la aplicación",
+  "resumen": "Las nuevas llamadas para invitados de WhatsApp permiten que cualquier persona entre a una llamada o videollamada desde el navegador, sin tener cuenta ni la aplicación instalada: el anfitrión crea un enlace, aprueba quién entra y la conversación queda cifrada de extremo a extremo.",
+  "categoria": "Apps",
+  "fecha": "2026-10-20",
+  "url": "articulos/whatsapp-llamadas-invitados.html"
+ }
+]
