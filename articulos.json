@@ -14,5 +14,13 @@
   "categoria": "Apps",
   "fecha": "2026-10-20",
   "url": "articulos/whatsapp-llamadas-invitados.html"
+ },
+ {
+  "slug": "microsoft-guardian-agents",
+  "titulo": "Microsoft pone a una IA a vigilar a las otras: llegan los Guardian Agents",
+  "resumen": "Microsoft anunció el 19 de octubre los Guardian Agents: agentes de inteligencia artificial que supervisan 24/7 a los demás agentes de la empresa, calculan su riesgo en tiempo real y pueden quitarles permisos o pedir aprobación humana si algo se sale de control.",
+  "categoria": "Inteligencia artificial",
+  "fecha": "2026-10-21",
+  "url": "articulos/microsoft-guardian-agents.html"
  }
 ]
