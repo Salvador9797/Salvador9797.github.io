@@ -1,5 +1,13 @@
 [
  {
+  "slug": "php2shell-falla-critica",
+  "titulo": "PHP2Shell: la falla crítica que puso a medio internet a correr a parchear sus páginas",
+  "resumen": "El equipo de PHP publicó parches de emergencia para dos vulnerabilidades críticas, bautizadas PHP2Shell, que permiten tomar el control de un servidor con una sola petición. Gobiernos desconectaron sus páginas y el FBI recomendó hacer lo mismo.",
+  "categoria": "Ciberseguridad",
+  "fecha": "2026-10-22",
+  "url": "articulos/php2shell-falla-critica.html"
+ },
+ {
   "categoria": "Inteligencia artificial",
   "fecha": "2026-10-19",
   "resumen": "El Departamento de Seguridad Nacional prohibió a todas las agencias civiles federales usar productos de DeepSeek: nada de compras nuevas, hay que desinstalar lo ya instalado, y el veto alcanza incluso a herramientas de terceros construidas sobre sus modelos.",
