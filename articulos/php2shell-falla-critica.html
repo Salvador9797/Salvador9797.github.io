@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>PHP2Shell: la falla crítica que puso a medio internet a correr a parchear sus páginas · Pulso Tech</title>
+<meta content="El equipo de PHP publicó parches de emergencia para dos vulnerabilidades críticas, bautizadas PHP2Shell, que permiten ejecutar código en millones de servidores web con una sola petición. Gobiernos desconectaron sus páginas y el FBI recomendó hacer lo mismo." name="description"/>
+<script>(function(){try{var t=localStorage.getItem('pt-theme');if(t){document.documentElement.setAttribute('data-theme',t);}else if(window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches){document.documentElement.setAttribute('data-theme','dark');}}catch(e){}})();</script>
+<style>
+/* ================= PULSO TECH · minimalista ================= */
+:root{
+  --bg:#fafaf8; --card:#ffffff; --ink:#191b22; --muted:#6b7280;
+  --accent:#e85d2a; --accent-soft:#fdeee6; --line:#eceae4;
+  --navy:#14161f; --radius:18px;
+  --shadow:0 10px 30px rgba(20,22,31,.08);
+}
+[data-theme="dark"]{
+  --bg:#0f1117; --card:#171a24; --ink:#eceef4; --muted:#9aa1b2;
+  --accent:#ff7a3d; --accent-soft:#2a1c14; --line:#232838;
+  --shadow:0 10px 30px rgba(0,0,0,.45);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;line-height:1.65;transition:background .4s ease,color .4s ease;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;height:auto;border-radius:12px}
+
+/* ---------- Cabecera ---------- */
+.pt-header{position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);background:var(--bg);border-bottom:1px solid var(--line)}
+.pt-header-inner{max-width:1080px;margin:0 auto;padding:14px 20px;display:flex;align-items:center;gap:16px}
+.pt-logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.35rem;letter-spacing:-.02em}
+.pt-pulse{width:12px;height:12px;border-radius:50%;background:var(--accent);position:relative;flex:none}
+.pt-pulse::after{content:"";position:absolute;inset:-6px;border-radius:50%;border:2px solid var(--accent);animation:pt-ping 1.8s ease-out infinite}
+@keyframes pt-ping{0%{transform:scale(.4);opacity:1}100%{transform:scale(1.4);opacity:0}}
+.pt-nav{display:flex;gap:4px}
+.pt-nav a{padding:8px 14px;border-radius:999px;font-size:.9rem;color:var(--muted);font-weight:600;transition:all .25s}
+.pt-nav a:hover{background:var(--accent-soft);color:var(--accent);transform:translateY(-1px)}
+.pt-tools{margin-left:auto;display:flex;align-items:center;gap:10px}
+.pt-search{display:flex;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:5px 5px 5px 14px;box-shadow:var(--shadow)}
+.pt-search input{border:0;background:transparent;outline:0;color:var(--ink);font-size:.85rem;width:130px}
+.pt-search button{border:0;background:var(--accent);color:#fff;border-radius:50%;width:30px;height:30px;cursor:pointer;font-size:.9rem;transition:transform .2s;line-height:1}
+.pt-search button:hover{transform:scale(1.12) rotate(-10deg)}
+.pt-theme{border:1px solid var(--line);background:var(--card);border-radius:50%;width:38px;height:38px;cursor:pointer;font-size:1.05rem;transition:transform .3s;color:var(--ink);line-height:1}
+.pt-theme:hover{transform:rotate(25deg) scale(1.08)}
+
+/* ---------- Ticker de tendencias ---------- */
+.pt-ticker{background:var(--navy);color:#fff;overflow:hidden;display:flex;align-items:stretch}
+.pt-ticker-label{background:var(--accent);font-weight:800;font-size:.72rem;letter-spacing:.14em;padding:10px 16px;display:flex;align-items:center;flex:none;z-index:2;text-transform:uppercase}
+.pt-ticker-view{overflow:hidden;flex:1;display:flex;align-items:center}
+.pt-ticker-track{display:flex;gap:14px;white-space:nowrap;animation:pt-ticker 30s linear infinite;padding:10px 0;align-items:center}
+.pt-ticker:hover .pt-ticker-track{animation-play-state:paused}
+@keyframes pt-ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.pt-ticker-track a{font-size:.85rem;color:#ffd9c7}
+.pt-ticker-track a:hover{color:#fff;text-decoration:underline}
+.pt-ticker-dot{color:var(--accent);font-weight:800}
+
+/* ---------- Contenido ---------- */
+.pt-main{max-width:1080px;margin:0 auto;padding:34px 20px 60px}
+.pt-searchnote{background:var(--accent-soft);border:1px solid var(--line);border-radius:12px;padding:12px 18px;margin-bottom:24px;font-size:.95rem}
+.pt-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:22px}
+
+/* Titular destacado */
+.pt-hero{grid-column:1/-1;position:relative;border-radius:24px;padding:46px 42px;margin-bottom:30px;color:#fff;overflow:hidden;background:linear-gradient(120deg,#14161f,#3a2417,#5b2f16,#14161f);background-size:280% 280%;animation:pt-gradient 10s ease infinite;box-shadow:var(--shadow)}
+@keyframes pt-gradient{0%,100%{background-position:0% 40%}50%{background-position:100% 60%}}
+.pt-kicker{display:inline-block;font-size:.72rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:#ffb03a;margin-bottom:14px}
+.pt-kicker.alt{color:var(--accent)}
+.pt-hero h2{font-size:clamp(1.6rem,3.4vw,2.6rem);line-height:1.18;letter-spacing:-.02em;margin-bottom:12px;max-width:16em}
+.pt-hero h2 a:hover{text-decoration:underline;text-decoration-color:var(--accent);text-underline-offset:6px}
+.pt-hero-snippet{color:#e8d9cd;max-width:38em;margin-bottom:20px}
+.pt-hero .pt-meta{color:#c9b8ab}
+.pt-cta{display:inline-block;margin-top:18px;background:var(--accent);color:#fff!important;font-weight:700;padding:12px 26px;border-radius:999px;transition:transform .25s,box-shadow .25s;box-shadow:0 8px 20px rgba(232,93,42,.35)}
+.pt-cta:hover{transform:translateY(-3px) scale(1.03);box-shadow:0 12px 26px rgba(232,93,42,.5)}
+
+/* Tarjetas */
+.pt-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:26px;box-shadow:var(--shadow);position:relative;overflow:hidden;transition:transform .3s ease,box-shadow .3s ease;display:flex;flex-direction:column;gap:12px}
+.pt-card::before{content:"";position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--accent),#ffb03a);transform:scaleX(0);transform-origin:left;transition:transform .35s ease}
+.pt-card:hover{transform:translateY(-6px)}
+.pt-card:hover::before{transform:scaleX(1)}
+.pt-card h3{font-size:1.18rem;line-height:1.35;letter-spacing:-.01em}
+.pt-card h3 a:hover{color:var(--accent)}
+.pt-snippet{color:var(--muted);font-size:.93rem}
+.pt-meta{display:flex;align-items:center;gap:10px;font-size:.76rem;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;font-weight:600}
+.pt-labels{display:flex;flex-wrap:wrap;gap:8px}
+.pt-chip{background:var(--accent-soft);color:var(--accent);font-size:.74rem;font-weight:700;padding:4px 12px;border-radius:999px}
+.pt-more{margin-top:auto;font-weight:700;color:var(--accent);font-size:.9rem}
+.pt-more span{display:inline-block;transition:transform .25s}
+.pt-card:hover .pt-more span{transform:translateX(6px)}
+
+/* ---------- Bloque del canal ---------- */
+.pt-about{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:40px;box-shadow:var(--shadow);margin-top:38px}
+.pt-about h2{font-size:clamp(1.3rem,2.6vw,1.8rem);letter-spacing:-.02em;margin-bottom:10px}
+.pt-about p{color:var(--muted);max-width:44em}
+
+/* ---------- Artículo individual ---------- */
+.pt-article{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:46px;box-shadow:var(--shadow);max-width:830px;margin:0 auto}
+.pt-article h1{font-size:clamp(1.7rem,3.6vw,2.7rem);line-height:1.2;letter-spacing:-.02em;margin:14px 0}
+.pt-article .post-body{font-size:1.05rem;margin-top:18px}
+.pt-article .post-body p{margin-bottom:1.2em}
+.pt-article .post-body h2,.pt-article .post-body h3{margin:1.4em 0 .6em;letter-spacing:-.01em}
+.pt-article .post-body ul,.pt-article .post-body ol{margin:0 0 1.2em 1.4em}
+.pt-article .post-body blockquote{border-left:4px solid var(--accent);background:var(--accent-soft);padding:14px 20px;border-radius:0 12px 12px 0;margin:1.4em 0;font-style:italic}
+.pt-article .post-body a{color:var(--accent);font-weight:600}
+.pt-article .post-body a:hover{text-decoration:underline}
+.pt-esencial{background:var(--accent-soft);border-left:4px solid var(--accent);padding:18px 22px;border-radius:0 14px 14px 0;margin:26px 0}
+.pt-esencial h3{margin:0 0 10px}
+.pt-esencial ul{margin:0 0 0 1.2em}
+.pt-esencial li{margin-bottom:6px}
+.pt-fuentes{font-size:.9rem;color:var(--muted)}
+.pt-back{display:inline-flex;align-items:center;gap:8px;font-weight:700;color:var(--accent);font-size:.9rem}
+.pt-back:hover{text-decoration:underline}
+
+/* ---------- Pie ---------- */
+.pt-footer{border-top:1px solid var(--line);padding:36px 20px;text-align:center;color:var(--muted);font-size:.86rem}
+.pt-footer b{color:var(--ink)}
+.pt-footer .pt-small{margin-top:8px;font-size:.78rem}
+.pt-footer a:hover{color:var(--accent)}
+
+/* ---------- Mascota Pucky ---------- */
+.pt-mascot{position:fixed;right:22px;bottom:22px;z-index:60;width:94px;cursor:pointer;filter:drop-shadow(0 12px 20px rgba(0,0,0,.25));animation:pt-float 4s ease-in-out infinite;transition:transform .25s}
+.pt-mascot:hover{transform:scale(1.08)}
+@keyframes pt-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.pt-eye{transform-box:fill-box;transform-origin:center;animation:pt-blink 4.6s infinite}
+@keyframes pt-blink{0%,92%,100%{transform:scaleY(1)}95%{transform:scaleY(.08)}}
+.pt-tail{transform-box:fill-box;transform-origin:20% 20%;animation:pt-wag 3.4s ease-in-out infinite}
+@keyframes pt-wag{0%,100%{transform:rotate(0deg)}50%{transform:rotate(12deg)}}
+.pt-paw-wave{transform-box:fill-box;transform-origin:50% 90%}
+.pt-mascot.waving .pt-paw-wave{animation:pt-wave .7s ease 2}
+@keyframes pt-wave{0%,100%{transform:rotate(0deg)}50%{transform:rotate(-35deg)}}
+.pt-bubble{position:fixed;right:126px;bottom:100px;z-index:60;max-width:230px;background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:16px 16px 4px 16px;padding:12px 16px;font-size:.85rem;font-weight:600;box-shadow:var(--shadow);opacity:0;transform:translateY(8px) scale(.92);pointer-events:none;transition:opacity .3s,transform .35s cubic-bezier(.34,1.56,.64,1)}
+.pt-bubble.show{opacity:1;transform:none}
+
+/* ---------- Aparición al hacer scroll ---------- */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s cubic-bezier(.22,.61,.36,1)}
+.reveal.in{opacity:1;transform:none}
+
+/* ---------- Responsive ---------- */
+@media(max-width:760px){
+  .pt-nav{display:none}
+  .pt-hero{padding:32px 24px}
+  .pt-article{padding:28px 20px}
+  .pt-about{padding:28px 22px}
+  .pt-search input{width:88px}
+  .pt-mascot{width:74px;right:14px;bottom:14px}
+  .pt-bubble{right:98px;bottom:82px;max-width:200px}
+}
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+  .reveal{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+
+<!-- ================= CABECERA ================= -->
+<header class="pt-header">
+  <div class="pt-header-inner">
+    <a class="pt-logo" href="../index.html"><span class="pt-pulse"></span><span>Pulso Tech</span></a>
+    <nav class="pt-nav">
+      <a href="../index.html">Inicio</a>
+      <a href="https://www.youtube.com/@lokuiito" rel="noopener" target="_blank">Canal</a>
+    </nav>
+    <div class="pt-tools">
+      <form action="../index.html" class="pt-search" id="pt-buscar" method="get">
+        <input aria-label="Buscar artículos" id="pt-q" name="q" placeholder="Buscar..." type="search"/>
+        <button title="Buscar" type="submit">&#8981;</button>
+      </form>
+      <button aria-label="Cambiar tema" class="pt-theme" id="pt-theme" title="Modo claro / oscuro">&#9681;</button>
+    </div>
+  </div>
+</header>
+
+<!-- ================= ARTÍCULO ================= -->
+<main class="pt-main">
+  <article class="pt-article reveal in">
+    <a class="pt-back" href="../index.html">&#8592; Volver</a>
+    <p class="pt-kicker alt" style="margin-top:20px">Ciberseguridad</p>
+    <h1>PHP2Shell: la falla crítica que puso a medio internet a correr a parchear sus páginas</h1>
+    <div class="pt-meta"><span>22 de octubre de 2026</span><span>&#183; Pulso Tech</span></div>
+    <div class="post-body">
+      <p>Ayer miércoles, el mundo de internet vivió uno de esos días que los expertos en seguridad recordarán por un buen tiempo. El equipo oficial de <strong>PHP</strong>, el lenguaje de programación que hace funcionar buena parte de las páginas web que visitas todos los días, publicó parches de emergencia para corregir <strong>dos vulnerabilidades críticas</strong> que permiten a un atacante tomar el control de un servidor con una sola petición enviada por internet. Sin contraseña, sin que nadie haga clic en nada. La compañía de ciberseguridad watchTowr las bautizó como <strong>PHP2Shell</strong>, y la noticia corrió tan rápido que varios gobiernos empezaron a desconectar sus propias páginas antes de que los parches estuvieran listos.</p>
+
+      <h2>¿Qué es exactamente PHP2Shell?</h2>
+      <p>No es un virus ni una app maliciosa: son dos fallas identificadas como <strong>CVE-2026-109618</strong> y <strong>CVE-2026-109619</strong>, escondidas en el propio PHP, el motor que interpreta los sitios web en el servidor. Explicado en sencillo: hay una función de PHP que se usa para mostrar cuánto avanza la subida de un archivo. Un error en esa función permite que una petición malintencionada corrompa la memoria del servidor y termine ejecutando el código del atacante. En palabras de los expertos: <strong>ejecución remota de código sin autenticación</strong>, algo así como dejar la puerta de atrás de la casa abierta y sin llave.</p>
+      <p>La gravedad es de <strong>9.2 sobre 10</strong> en la escala CVSS, el sistema que mide qué tan peligrosa es una vulnerabilidad. Y lo peor: los fallos afectan a <strong>todas las versiones de PHP desde la 5 hasta las actuales (8.2, 8.3, 8.4 y 8.5)</strong>, según reportó El Nuevo Día. En otras palabras, una porción enorme de la web estaba expuesta.</p>
+
+      <h2>¿Por qué es tan grave? Porque PHP está en todas partes</h2>
+      <p>Muchas de las páginas que usas a diario corren sobre PHP: <strong>WordPress, WooCommerce, Magento, Drupal y Joomla</strong>, entre otros. Se estima que PHP alimenta alrededor del <strong>70% de los sitios web con lenguaje de servidor conocido</strong>, según el portal especializado eCommerce News. Tu blog, tu tienda en línea favorita, el portal de tu escuela o del banco podrían estar construidos sobre este lenguaje. Cuando la falla está en el motor mismo, da igual qué tan actualizada tengas la tienda: la grieta sigue ahí.</p>
+
+      <h2>La respuesta fue de película: gobiernos apagando sus servidores</h2>
+      <p>El miércoles 21 de octubre, organismos públicos de varios países <strong>desconectaron temporalmente sus páginas web</strong> para instalar las actualizaciones antes de que los atacantes pudieran aprovechar la falla. En Países Bajos, el gobierno sacó de línea varios portales oficiales, entre ellos <strong>Overheid.nl, MijnOverheid.nl y DigiD</strong>, reportó El Imparcial. En Puerto Rico, la agencia de tecnología del gobierno (PRITS) activó un operativo de escaneo e instaló los parches en sus sistemas. Hasta el <strong>FBI recomendó a los administradores desconectar los servidores afectados</strong> hasta completar la actualización, según el Nuevo Día.</p>
+      <p>Las versiones seguras ya están disponibles: <strong>8.5.12, 8.4.27, 8.3.36 y 8.2.35</strong>, publicadas el 21 de octubre. Ojo con un detalle importante: las ramas más antiguas (8.1, 8.0, 7.4 y anteriores) no recibieron parche oficial porque ya no tienen soporte. Si un sitio corre sobre una de esas versiones, la única salida real es migrar a una versión con soporte.</p>
+
+      <h2>El giro inesperado: la IA ayudó a cazar la falla</h2>
+      <p>Según contó la <strong>Fundación PHP</strong> a la agencia EFE, los indicios del problema se habían detectado desde <strong>2024</strong>, en la primera auditoría externa de seguridad del lenguaje en años, pero la solución se estancó por meses. El punto de inflexión llegó en 2026: la fundación amplió su equipo de seguridad y, junto al proyecto <strong>Alpha-Omega</strong>, analizó el código de PHP con herramientas de IA como <strong>Claude Mythos</strong> (de Anthropic) y <strong>Daybreak Red</strong> (de OpenAI) para validar la falla. La misma tecnología temida por sus riesgos terminó siendo la detective del caso.</p>
+
+      <h2>¿Y a ti en qué te afecta?</h2>
+      <p>Si tienes una página web, un blog o una tienda en línea, esta noticia va contigo: <strong>actualizar tus plugins o el tema no basta</strong>, porque la falla está en el PHP del servidor. Quien instala el parche es tu proveedor de hosting o tu equipo técnico: escríbeles hoy y pregúntales si ya actualizaron.</p>
+      <p>Y si solo navegas, el consejo de siempre, hoy más vigente: usa contraseñas únicas por sitio y activa la verificación en dos pasos. Los ataques de esta clase sirven para robar datos de cuentas y sesiones, y los primeros intentos de explotación reales ya se registraron días antes de que el parche saliera.</p>
+
+      <div class="pt-esencial">
+        <h3>Lo esencial</h3>
+        <ul>
+          <li>Dos vulnerabilidades críticas de PHP, bautizadas PHP2Shell (CVE-2026-109618 y CVE-2026-109619), permiten ejecutar código en el servidor con una sola petición, sin contraseña. Gravedad: 9.2 sobre 10.</li>
+          <li>Afectan a todas las versiones de PHP desde la 5 hasta la 8.5; las versiones seguras son 8.5.12, 8.4.27, 8.3.36 y 8.2.35, publicadas el 21 de octubre.</li>
+          <li>Gobiernos de varios países desconectaron sus páginas de forma preventiva y el FBI recomendó hacer lo mismo.</li>
+          <li>PHP alimenta alrededor del 70% de los sitios web con lenguaje de servidor conocido, incluyendo WordPress, WooCommerce, Magento y Drupal.</li>
+          <li>Si tienes una web: actualizar plugins no basta, el parche lo instala tu hosting. Y la IA (Claude Mythos y Daybreak Red) ayudó a la Fundación PHP a detectar y validar la falla.</li>
+        </ul>
+      </div>
+
+      <p>En <strong>Pulso Tech</strong> seguiremos el pulso de esta historia: cómo se protege (o se rompe) la web que usamos todos los días.</p>
+
+      <p class="pt-fuentes">Fuente: <a href="https://www.infobae.com/america/agencias/2026/10/21/solucionan-dos-fallos-criticos-php-que-han-obligado-a-aislar-sitios-y-aplicaciones-web-en-todo-el-mundo-por-seguridad/" rel="noopener" target="_blank">Infobae</a> (con información de Reuters) y <a href="https://www.elnuevodia.com/noticias/seguridad/notas/prits-atiende-vulnerabilidades-detectadas-en-el-lenguaje-php-utilizado-en-servidores-del-gobierno/" rel="noopener" target="_blank">El Nuevo Día</a>.</p>
+    </div>
+    <div class="pt-labels" style="margin-top:26px"><span class="pt-chip">Ciberseguridad</span></div>
+  </article>
+</main>
+
+<!-- ================= PIE ================= -->
+<footer class="pt-footer">
+  <p><b>Pulso Tech</b> &#183; Hecho con cariño para lectores curiosos</p>
+  <p class="pt-small"><a href="../index.html">Inicio</a> &#183; <a href="https://www.youtube.com/@lokuiito" rel="noopener" target="_blank">YouTube</a> &#183; Pulso Tech &#183; &#169; 2026</p>
+</footer>
+
+<!-- ================= MASCOTA PUCKY ================= -->
+<div class="pt-bubble" id="pt-bubble">Hola, soy Pucky. Toca para saludar.</div>
+<div class="pt-mascot" id="pt-mascot" title="Pucky">
+<svg aria-label="Pucky, la mascota de Pulso Tech" role="img" viewBox="0 0 120 132" xmlns="http://www.w3.org/2000/svg">
+  <g class="pt-tail">
+    <path d="M94 98 Q122 90 118 58 Q116 40 100 38 Q88 37 90 52 Q92 70 78 78 Z" fill="#C74E24"/>
+    <path d="M104 66 Q112 64 113 54" fill="none" stroke="#8f3413" stroke-linecap="round" stroke-width="6"/>
+    <path d="M100 80 Q110 78 112 68" fill="none" stroke="#8f3413" stroke-linecap="round" stroke-width="6"/>
+  </g>
+  <path d="M18 44 Q8 18 30 12 Q44 8 48 24 Z" fill="#D8542A"/>
+  <path d="M24 38 Q18 24 30 20 Q38 17 41 28 Z" fill="#FFF3E8"/>
+  <path d="M102 44 Q112 18 90 12 Q76 8 72 24 Z" fill="#D8542A"/>
+  <path d="M96 38 Q102 24 90 20 Q82 17 79 28 Z" fill="#FFF3E8"/>
+  <ellipse cx="60" cy="66" fill="#E0652F" rx="46" ry="42"/>
+  <ellipse cx="24" cy="80" fill="#FFF6EE" rx="13" ry="17" transform="rotate(-12 24 80)"/>
+  <ellipse cx="96" cy="80" fill="#FFF6EE" rx="13" ry="17" transform="rotate(12 96 80)"/>
+  <rect height="8" rx="4" width="14" x="38" y="30" fill="#FFF6EE"/>
+  <rect height="8" rx="4" width="14" x="68" y="30" fill="#FFF6EE"/>
+  <ellipse cx="32" cy="72" fill="#ff9d9d" opacity=".65" rx="6" ry="4"/>
+  <ellipse cx="88" cy="72" fill="#ff9d9d" opacity=".65" rx="6" ry="4"/>
+  <g class="pt-eye">
+    <ellipse cx="44" cy="58" fill="#fff" rx="11" ry="13"/>
+    <ellipse cx="45" cy="60" fill="#2b2118" rx="6" ry="8.5"/>
+    <circle cx="47" cy="56" fill="#fff" r="3"/>
+    <circle cx="43" cy="63" fill="#fff" opacity=".8" r="1.4"/>
+  </g>
+  <g class="pt-eye" style="animation-delay:.09s">
+    <ellipse cx="76" cy="58" fill="#fff" rx="11" ry="13"/>
+    <ellipse cx="75" cy="60" fill="#2b2118" rx="6" ry="8.5"/>
+    <circle cx="77" cy="56" fill="#fff" r="3"/>
+    <circle cx="73" cy="63" fill="#fff" opacity=".8" r="1.4"/>
+  </g>
+  <ellipse cx="60" cy="86" fill="#FFF9F3" rx="20" ry="14"/>
+  <ellipse cx="60" cy="80" fill="#5b3a29" rx="7" ry="5.5"/>
+  <path d="M52 91 Q60 96 68 91" fill="none" stroke="#5b3a29" stroke-linecap="round" stroke-width="2.5"/>
+  <ellipse cx="40" cy="112" fill="#D8542A" rx="10" ry="8"/>
+  <g class="pt-paw-wave">
+    <ellipse cx="80" cy="110" fill="#D8542A" rx="10" ry="8"/>
+  </g>
+</svg>
+</div>
+
+<script>
+(function(){
+  var root=document.documentElement;
+  /* Tema claro / oscuro */
+  document.getElementById('pt-theme').addEventListener('click',function(){
+    var next=root.getAttribute('data-theme')==='dark'?'light':'dark';
+    root.setAttribute('data-theme',next);
+    try{localStorage.setItem('pt-theme',next);}catch(e){}
+  });
+  /* Mascota Pucky */
+  var m=document.getElementById('pt-mascot'),b=document.getElementById('pt-bubble'),t=null,i=0;
+  var msgs=[
+    'Hola, soy Pucky. Bienvenido a Pulso Tech.',
+    '¿Ya leíste lo de hoy? Hay titular nuevo.',
+    'Vuelve a la portada para ver más titulares.',
+    'Vuelve mañana: publicamos todos los días.'
+  ];
+  m.addEventListener('click',function(){
+    i=(i+1)%msgs.length;
+    b.textContent=msgs[i];
+    b.classList.add('show');
+    m.classList.remove('waving');void m.offsetWidth;m.classList.add('waving');
+    clearTimeout(t);t=setTimeout(function(){b.classList.remove('show');},4500);
+  });
+})();
+</script>
+
+</body>
+</html>
