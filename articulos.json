@@ -30,5 +30,13 @@
   "categoria": "Inteligencia artificial",
   "fecha": "2026-10-21",
   "url": "articulos/microsoft-guardian-agents.html"
+ },
+ {
+  "slug": "nintendo-switch-2-jailbreak-software",
+  "titulo": "Hackearon la Nintendo Switch 2 sin abrirla: el primer jailbreak por software ya está aquí",
+  "resumen": "El investigador Sammy Hajhamid publicó ns2jb, el primer jailbreak basado solo en software para la Nintendo Switch 2. La vulnerabilidad la encontró la IA Codex de OpenAI dentro de SmileBASIC 4: funciona en el firmware 23.0.1 y ya corre homebrew y mods de Mario Kart World.",
+  "categoria": "Videojuegos",
+  "fecha": "2026-10-23",
+  "url": "articulos/nintendo-switch-2-jailbreak-software.html"
  }
 ]
