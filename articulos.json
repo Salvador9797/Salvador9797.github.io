@@ -1,5 +1,13 @@
 [
  {
+  "slug": "iphone-duo-llega-tiendas",
+  "titulo": "El iPhone plegable llegó a las tiendas y se agotó en horas: así fue el estreno del iPhone Duo",
+  "resumen": "Apple puso a la venta el iPhone Duo, su primer teléfono plegable, el 23 de octubre de 2026: las reservas se agotaron en minutos, las filas volvieron a las Apple Store y las entregas en línea ya van por enero de 2027.",
+  "categoria": "Móviles",
+  "fecha": "2026-10-24",
+  "url": "articulos/iphone-duo-llega-tiendas.html"
+ },
+ {
   "slug": "php2shell-falla-critica",
   "titulo": "PHP2Shell: la falla crítica que puso a medio internet a correr a parchear sus páginas",
   "resumen": "El equipo de PHP publicó parches de emergencia para dos vulnerabilidades críticas, bautizadas PHP2Shell, que permiten tomar el control de un servidor con una sola petición. Gobiernos desconectaron sus páginas y el FBI recomendó hacer lo mismo.",

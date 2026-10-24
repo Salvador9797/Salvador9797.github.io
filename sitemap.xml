@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://pulsotech.github.io/</loc>
-    <lastmod>2026-10-23</lastmod>
+    <lastmod>2026-10-24</lastmod>
   </url>
   <url>
     <loc>https://pulsotech.github.io/articulos/microsoft-guardian-agents.html</loc>
@@ -23,5 +23,9 @@
     <url>
       <loc>https://pulsotech.github.io/articulos/nintendo-switch-2-jailbreak-software.html</loc>
       <lastmod>2026-10-23</lastmod>
+    </url>
+    <url>
+      <loc>https://pulsotech.github.io/articulos/iphone-duo-llega-tiendas.html</loc>
+      <lastmod>2026-10-24</lastmod>
     </url>
 </urlset>
